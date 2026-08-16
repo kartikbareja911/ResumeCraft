@@ -1,0 +1,17 @@
+{
+  "name": "resumecraft-root",
+  "version": "1.0.0",
+  "description": "ResumeCraft - Rich-Formatting Resume Builder with ATS Score Engine",
+  "scripts": {
+    "install-all": "npm install && npm install --prefix backend && npm install --prefix frontend",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "start": "npm run start --prefix backend",
+    "build": "npm run build --prefix frontend",
+    "deploy": "npm run build && npm run start",
+    "backend": "npm run dev --prefix backend",
+    "frontend": "npm run dev --prefix frontend"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
