@@ -590,22 +590,31 @@ export default function Dashboard() {
                       )}
 
                       {section.id === 'skills' && (
-                        <div className="flex flex-wrap gap-x-4 gap-y-1 text-[0.9em] text-slate-950 pl-0.5">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-[0.88em] pl-0.5">
                           {section.items?.map((item) => (
-                            <div key={item.id} className="flex gap-1.5">
-                              <span className="font-bold">{item.category}:</span>
-                              <span>{item.skills?.join(', ')}</span>
+                            <div key={item.id} className="flex flex-col">
+                              <span className="font-bold text-slate-950">
+                                {item.category || 'Category'}:
+                              </span>
+                              <span className="text-slate-950 font-normal leading-snug">
+                                {item.skills || 'Comma, separated, skills'}
+                              </span>
                             </div>
                           ))}
                         </div>
                       )}
 
                       {section.id === 'languages' && (
-                        <div className="flex flex-wrap gap-x-6 gap-y-1 text-[0.9em] text-slate-950 pl-0.5">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-[0.88em] pl-0.5">
                           {section.items?.map((item) => (
-                            <span key={item.id}>
-                              <span className="font-bold">{item.language}</span> ({item.proficiency})
-                            </span>
+                            <div key={item.id} className="flex items-baseline gap-2">
+                              <span className="font-bold text-slate-950">
+                                {item.category || 'Language'}:
+                              </span>
+                              <span className="text-slate-950 font-medium">
+                                {item.skills || 'Proficiency'}
+                              </span>
+                            </div>
                           ))}
                         </div>
                       )}
