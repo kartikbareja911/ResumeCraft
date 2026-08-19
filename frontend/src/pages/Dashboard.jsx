@@ -47,7 +47,7 @@ export default function Dashboard() {
   const { user, token, logout } = useAuth();
   const navigate = useNavigate();
 
-  const firstName = user?.name?.split(' ')[0] || 'there';
+  const firstName = (user && user.name) ? user.name.split(' ')[0] : 'there';
   const stats = useMemo(() => {
     const latest = resumes[0]?.updatedAt ? new Date(resumes[0].updatedAt) : null;
     return [
