@@ -6,6 +6,7 @@ import {
   AlertCircle,
   Calendar,
   Copy,
+  Eye,
   FileQuestion,
   FileText,
   LogOut,
@@ -42,6 +43,7 @@ export default function Dashboard() {
   const [error, setError] = useState('');
   const [actionLoading, setActionLoading] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const [previewResume, setPreviewResume] = useState(null);
   const { user, token, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -332,6 +334,16 @@ export default function Dashboard() {
                     </div>
                     <div className="flex items-center gap-1 opacity-100 sm:opacity-0 sm:transition sm:group-hover:opacity-100">
                       <button
+                        title="Preview resume"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setPreviewResume(resume);
+                        }}
+                        className={`rounded-md p-2 transition ${darkMode ? 'text-slate-300 hover:bg-teal-300/10 hover:text-teal-100' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'}`}
+                      >
+                        <Eye className="h-4 w-4" />
+                      </button>
+                      <button
                         title="Duplicate resume"
                         disabled={actionLoading}
                         onClick={(e) => handleDuplicate(resume._id, e)}
@@ -378,6 +390,233 @@ export default function Dashboard() {
           navigate(`/editor/${newResume._id}`);
         }}
       />
+
+      {previewResume && (
+        <div 
+          className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 sm:p-6"
+          onClick={() => setPreviewResume(null)}
+        >
+          <div 
+            className={`w-full max-w-4xl rounded-2xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden ${darkMode ? 'bg-slate-900 border border-teal-300/15 text-slate-100' : 'bg-white border border-slate-200 text-slate-950'}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className={`flex items-center justify-between px-6 py-4 border-b ${darkMode ? 'border-teal-300/10' : 'border-slate-100'}`}>
+              <div className="flex items-center gap-2.5">
+                <Eye className="h-5 w-5 text-teal-400" />
+                <span className="font-heading text-lg font-bold truncate max-w-[280px] sm:max-w-[450px]">
+                  {previewResume.title}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => navigate(`/editor/${previewResume._id}`)}
+                  className="px-4 py-2 rounded-lg bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold transition shadow-lg shadow-teal-600/10"
+                >
+                  Edit Resume
+                </button>
+                <button
+                  onClick={() => setPreviewResume(null)}
+                  className={`p-2 rounded-lg border transition ${darkMode ? 'border-slate-800 hover:bg-slate-800 text-slate-400 hover:text-white' : 'border-slate-200 hover:bg-slate-100 text-slate-500 hover:text-slate-950'}`}
+                >
+                  <Plus className="h-4 w-4 rotate-45" />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body - Scrollable Resume Sheet */}
+            <div className={`flex-1 overflow-y-auto p-6 sm:p-8 ${darkMode ? 'bg-slate-950' : 'bg-slate-50'}`}>
+              <div 
+                className="bg-white text-slate-950 shadow-lg border border-slate-200 rounded-sm mx-auto min-h-[297mm] text-[13px] text-justify select-text"
+                style={{ 
+                  fontFamily: previewResume.content?.styles?.fontFamily || 'EB Garamond',
+                  paddingTop: previewResume.content?.styles?.marginY || '24px',
+                  paddingBottom: previewResume.content?.styles?.marginY || '24px',
+                  paddingLeft: previewResume.content?.styles?.marginX || '24px',
+                  paddingRight: previewResume.content?.styles?.marginX || '24px',
+                  color: '#0f172a'
+                }}
+              >
+                {/* Header (Personal Info) */}
+                {(() => {
+                  const personalInfo = previewResume.content?.personalInfo || {};
+                  return (
+                    <div className="text-center space-y-1">
+                      <h2 
+                        className="text-2xl font-extrabold tracking-tight uppercase"
+                        style={{ 
+                          fontFamily: previewResume.content?.styles?.nameFontFamily === 'same-as-body' 
+                            ? (previewResume.content?.styles?.fontFamily || 'EB Garamond')
+                            : (previewResume.content?.styles?.nameFontFamily || 'EB Garamond')
+                        }}
+                      >
+                        {personalInfo.name || 'Your Name'}
+                      </h2>
+                      {personalInfo.title && (
+                        <p className="text-[0.9em] font-bold tracking-widest uppercase text-slate-800">
+                          {personalInfo.title}
+                        </p>
+                      )}
+                      
+                      <div className="flex flex-wrap justify-center items-center gap-x-3 gap-y-1 text-[0.85em] text-slate-700 font-medium mt-2">
+                        {personalInfo.email && <span>{personalInfo.email}</span>}
+                        {personalInfo.phone && <span>{personalInfo.phone}</span>}
+                        {personalInfo.location && <span>{personalInfo.location}</span>}
+                        {personalInfo.website && (
+                          <a 
+                            href={personalInfo.website.startsWith('http') ? personalInfo.website : `https://${personalInfo.website}`} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-slate-800 hover:text-indigo-600 underline decoration-dotted"
+                          >
+                            {personalInfo.website}
+                          </a>
+                        )}
+                        {personalInfo.github && (
+                          <a 
+                            href={`https://github.com/${personalInfo.github}`} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-slate-800 hover:text-indigo-600 underline decoration-dotted"
+                          >
+                            github.com/{personalInfo.github}
+                          </a>
+                        )}
+                        {personalInfo.linkedin && (
+                          <a 
+                            href={`https://linkedin.com/in/${personalInfo.linkedin}`} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-slate-800 hover:text-indigo-600 underline decoration-dotted"
+                          >
+                            linkedin.com/in/{personalInfo.linkedin}
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })()}
+
+                {/* Resume Sections */}
+                {(() => {
+                  const content = previewResume.content || {};
+                  const styles = content.styles || {};
+                  const sections = content.sections || [];
+                  
+                  const renderBulletDescription = (description) => {
+                    if (!description) return null;
+                    const lines = description
+                      .split(/\r?\n/)
+                      .map(l => l.trim())
+                      .filter(Boolean);
+
+                    if (lines.length === 0) return null;
+
+                    return (
+                      <ul className="space-y-1 mt-1 text-[0.88em] text-slate-950 leading-relaxed pl-1">
+                        {lines.map((line, idx) => {
+                          const cleanLine = line.replace(/^[•\-\*\u2022\u2023\u25E6\u2043\u2219]\s*/, '').trim();
+                          if (!cleanLine) return null;
+                          const isTechStack = /^tech stack\s*:/i.test(cleanLine);
+                          return (
+                            <li key={idx} className="flex items-start gap-1.5 pl-0.5">
+                              <span className="select-none text-[0.9em] leading-tight text-slate-950 font-bold flex-shrink-0">•</span>
+                              <span className="flex-1 text-justify">
+                                {isTechStack ? (
+                                  <>
+                                    <strong className="font-bold text-slate-950">Tech Stack:</strong>
+                                    <span>{cleanLine.replace(/^tech stack\s*:\s*/i, ' ')}</span>
+                                  </>
+                                ) : (
+                                  cleanLine
+                                )}
+                              </span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    );
+                  };
+
+                  return sections.filter(s => s.visible).map((section) => (
+                    <div 
+                      key={section.id} 
+                      className="space-y-2 text-[1em]" 
+                      style={{ marginTop: styles.sectionSpacing || '16px' }}
+                    >
+                      <h3 
+                        className="text-[0.95em] font-extrabold uppercase tracking-wider border-b-2 pb-0.5 flex items-center gap-1.5"
+                        style={{ 
+                          color: styles.primaryColor || '#0f172a', 
+                          borderColor: styles.primaryColor || '#0f172a' 
+                        }}
+                      >
+                        {section.name}
+                      </h3>
+
+                      {section.id === 'summary' && section.text && (
+                        <p className="text-[0.9em] text-slate-950 leading-relaxed text-justify">
+                          {section.text}
+                        </p>
+                      )}
+
+                      {(section.id === 'experience' || section.id === 'education' || section.id === 'projects' || section.id === 'certificates') && (
+                        <div className="space-y-3" style={{ gap: styles.itemSpacing || '8px' }}>
+                          {section.items?.map((item) => (
+                            <div 
+                              key={item.id} 
+                              className="space-y-0.5"
+                              style={{ marginTop: styles.itemSpacing || '8px' }}
+                            >
+                              <div className="flex justify-between items-baseline">
+                                <span className="text-[0.92em] font-bold text-slate-950">
+                                  {item.position || item.degree || item.name || 'Title'}
+                                  {(item.company || item.school || item.issuer) ? (
+                                    <span className="font-normal italic text-slate-800">
+                                      , {item.company || item.school || item.issuer}
+                                    </span>
+                                  ) : ''}
+                                </span>
+                                <span className="text-[0.85em] text-slate-800 font-medium tracking-tight">
+                                  {item.startDate
+                                    ? `${item.startDate}${item.endDate ? ` – ${item.endDate}` : item.endDate === '' ? ' – Present' : ''}`
+                                    : item.date || ''}
+                                </span>
+                              </div>
+                              {renderBulletDescription(item.description)}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {section.id === 'skills' && (
+                        <div className="flex flex-wrap gap-x-4 gap-y-1 text-[0.9em] text-slate-950 pl-0.5">
+                          {section.items?.map((item) => (
+                            <div key={item.id} className="flex gap-1.5">
+                              <span className="font-bold">{item.category}:</span>
+                              <span>{item.skills?.join(', ')}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {section.id === 'languages' && (
+                        <div className="flex flex-wrap gap-x-6 gap-y-1 text-[0.9em] text-slate-950 pl-0.5">
+                          {section.items?.map((item) => (
+                            <span key={item.id}>
+                              <span className="font-bold">{item.language}</span> ({item.proficiency})
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ));
+                })()}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
