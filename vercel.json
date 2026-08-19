@@ -1,16 +1,12 @@
 {
-  "cleanUrls": true,
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "https://resumecraft-backend-ga3f.onrender.com/api/$1"
+      "source": "/api/:path*",
+      "destination": "https://resumecraft-backend-ga3f.onrender.com/api/:path*"
     },
     {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
