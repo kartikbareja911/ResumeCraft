@@ -41,7 +41,7 @@ app.use('/api', apiLimiter);
 app.use('/api/auth', authLimiter);
 
 // Basic welcome route
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
   res.json({
     message: 'Welcome to the ResumeCraft API',
     databaseMode: db.isFallback() ? 'Local file fallback (db.json)' : 'MongoDB active'
