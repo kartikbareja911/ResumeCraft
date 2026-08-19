@@ -882,16 +882,16 @@ export default function Editor() {
   return (
     <div className={`${editorShellClass} fixed inset-0 flex flex-col overflow-hidden`}>
       {/* Top Header Controls Panel (no-print) */}
-      <header className={`h-16 border-b backdrop-blur-xl flex items-center justify-between px-6 z-20 no-print select-none ${headerClass}`}>
-        <div className="flex items-center gap-4">
+      <header className={`h-16 border-b backdrop-blur-xl flex items-center justify-between px-6 z-20 no-print select-none gap-4 ${headerClass}`}>
+        <div className="flex items-center gap-4 min-w-0 flex-1">
           <button
             onClick={() => navigate('/dashboard')}
-            className={`p-2 rounded-lg border transition-colors ${ghostButtonClass}`}
+            className={`p-2 rounded-lg border transition-colors flex-shrink-0 ${ghostButtonClass}`}
           >
             <ArrowLeft className="w-4 h-4" />
           </button>
           
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 min-w-0 flex-1">
             <input
               type="text"
               value={title}
@@ -899,9 +899,9 @@ export default function Editor() {
                 setTitle(e.target.value);
                 setSaveStatus('Unsaved Changes');
               }}
-              className={`bg-transparent border-b border-transparent hover:border-slate-400 focus:border-teal-500 focus:outline-none text-lg font-heading font-bold px-1 py-0.5 max-w-[240px] sm:max-w-[320px] transition-all ${headingTextClass}`}
+              className={`bg-transparent border-b border-transparent hover:border-slate-400 focus:border-teal-500 focus:outline-none text-lg font-heading font-bold px-1 py-0.5 w-full min-w-0 max-w-[320px] transition-all ${headingTextClass}`}
             />
-            <span className={`text-xs px-2 py-0.5 rounded-full flex items-center gap-1 font-medium ${
+            <span className={`text-xs px-2 py-0.5 rounded-full flex items-center gap-1 font-medium flex-shrink-0 ${
               saveStatus === 'Saved' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/15' :
               saveStatus === 'Saving' ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/15' :
               'bg-amber-500/10 text-amber-400 border border-amber-500/15'
@@ -916,7 +916,7 @@ export default function Editor() {
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-shrink-0">
           {/* Canvas Scale Indicator */}
           <div className={`hidden md:flex items-center gap-2 rounded-lg border px-2.5 py-1 text-xs ${darkMode ? 'border-teal-300/15 bg-slate-900/70 text-slate-300 shadow-sm shadow-black/20' : 'border-slate-200 bg-white text-slate-500 shadow-sm shadow-slate-200/60'}`}>
             <span>Zoom:</span>
