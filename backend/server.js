@@ -68,19 +68,7 @@ app.use('/api', (req, res) => {
   res.status(404).json({ message: 'API endpoint not found' });
 });
 
-// Serve the built frontend in production (single-server deployment).
-if (isProduction) {
-  const distPath = path.resolve(__dirname, '../frontend/dist');
-  app.use(express.static(distPath));
-
-  // SPA fallback: serve index.html for any non-API GET request.
-  app.use((req, res, next) => {
-    if (req.method !== 'GET' || req.path.startsWith('/api')) {
-      return next();
-    }
-    res.sendFile(path.join(distPath, 'index.html'));
-  });
-}
+// Pure API backend server. Frontend is served separately (e.g. via Vercel).
 
 // Global error handler
 app.use((err, req, res, next) => {
