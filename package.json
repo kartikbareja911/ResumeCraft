@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "ResumeCraft - Rich-Formatting Resume Builder with ATS Score Engine",
   "scripts": {
-    "install-all": "npm install && npm install --prefix backend && npm install --prefix frontend",
+    "install-all": "npm install && npm install --prefix backend && npm install --prefix frontend --include=dev",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
     "start": "npm run start --prefix backend",
     "build": "npm run build --prefix frontend",
