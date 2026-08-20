@@ -44,18 +44,20 @@ export default function Dashboard() {
   const [actionLoading, setActionLoading] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [previewResume, setPreviewResume] = useState(null);
+  const [showWakeupWarning, setShowWakeupWarning] = useState(false);
   const { user, token, logout } = useAuth();
   const navigate = useNavigate();
 
   const firstName = (user && user.name) ? user.name.split(' ')[0] : 'there';
   const stats = useMemo(() => {
     const latest = resumes[0]?.updatedAt ? new Date(resumes[0].updatedAt) : null;
+    const isInitialLoad = loading && resumes.length === 0;
     return [
-      { label: 'Resumes', value: resumes.length },
+      { label: 'Resumes', value: isInitialLoad ? '—' : resumes.length },
       { label: 'Templates', value: '4' },
-      { label: 'Last edit', value: latest ? latest.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : 'None' },
+      { label: 'Last edit', value: isInitialLoad ? '—' : (latest ? latest.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : 'None') },
     ];
-  }, [resumes]);
+  }, [resumes, loading]);
 
   const toggleTheme = () => {
     setDarkMode((prev) => {
@@ -66,8 +68,14 @@ export default function Dashboard() {
   };
 
   const fetchResumes = async (silent = false) => {
+    let warningTimer;
     try {
-      if (!silent && resumes.length === 0) setLoading(true);
+      if (!silent && resumes.length === 0) {
+        setLoading(true);
+        warningTimer = setTimeout(() => {
+          setShowWakeupWarning(true);
+        }, 1500);
+      }
       const response = await fetch('/api/resumes', {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -84,6 +92,8 @@ export default function Dashboard() {
       console.error(err);
       if (resumes.length === 0) setError('Network error loading resumes.');
     } finally {
+      clearTimeout(warningTimer);
+      setShowWakeupWarning(false);
       setLoading(false);
     }
   };
@@ -210,6 +220,18 @@ export default function Dashboard() {
       </header>
 
       <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        {showWakeupWarning && (
+          <div className="mb-6 flex items-center gap-3 rounded-xl border border-amber-500/20 bg-amber-500/10 p-4 text-sm text-amber-300 animate-pulse">
+            <Sparkles className="h-5 w-5 text-amber-400 flex-shrink-0" />
+            <div>
+              <p className="font-bold text-amber-200">Server is waking up...</p>
+              <p className="text-xs text-amber-300/80 mt-0.5">
+                We are hosted on Render Free Tier. The database/backend takes about 30–50 seconds to boot up after inactivity. Thank you for your patience!
+              </p>
+            </div>
+          </div>
+        )}
+
         <section className={`rounded-2xl border p-6 sm:p-8 ${darkMode ? 'surface-dark' : 'border-white/80 bg-white/82 shadow-xl shadow-slate-300/30'}`}>
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div>

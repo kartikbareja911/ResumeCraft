@@ -44,6 +44,11 @@ const PublicRoute = ({ children }) => {
 };
 
 function App() {
+  // Pre-emptively trigger server wake-up ping on mount
+  React.useEffect(() => {
+    fetch('/api/health').catch(() => {});
+  }, []);
+
   return (
     <AuthProvider>
       <BrowserRouter>
