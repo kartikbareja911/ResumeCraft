@@ -5,7 +5,7 @@
       "destination": "https://resumecraft-backend-ga3f.onrender.com/api/:path*"
     },
     {
-      "source": "/(.*)",
+      "source": "/(login|register|dashboard|editor|editor/:id)",
       "destination": "/index.html"
     }
   ]
