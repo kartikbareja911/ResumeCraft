@@ -237,7 +237,7 @@ export default function Dashboard() {
       <header className={`sticky top-0 z-30 border-b backdrop-blur-xl ${darkMode ? 'border-teal-300/15 bg-slate-950/78 shadow-lg shadow-teal-950/20' : 'border-white/70 bg-white/72'}`}>
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <button onClick={() => navigate('/dashboard')} className="flex items-center gap-2.5">
-            <LogoIcon className="w-6.5 h-6.5" strokeWidth={2.3} />
+            <LogoIcon className="w-7 h-7" strokeWidth={2.3} />
             <span className="font-heading text-xl font-extrabold">ResumeCraft</span>
           </button>
 
