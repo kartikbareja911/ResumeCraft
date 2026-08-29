@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import LogoIcon from '../components/LogoIcon';
 import UploadResumeModal from '../components/UploadResumeModal';
 import {
   AlertCircle,
@@ -235,10 +236,8 @@ export default function Dashboard() {
     <div className={`min-h-screen transition-colors ${darkMode ? 'workspace-shell text-slate-100' : 'app-shell text-slate-900'}`}>
       <header className={`sticky top-0 z-30 border-b backdrop-blur-xl ${darkMode ? 'border-teal-300/15 bg-slate-950/78 shadow-lg shadow-teal-950/20' : 'border-white/70 bg-white/72'}`}>
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <button onClick={() => navigate('/dashboard')} className="flex items-center gap-3">
-            <div className={`rounded-xl p-2.5 shadow-lg ${darkMode ? 'bg-gradient-to-br from-teal-300 to-amber-300 text-slate-950 shadow-teal-950/30' : 'bg-slate-950 text-white shadow-slate-300/40'}`}>
-              <FileText className="h-5 w-5" />
-            </div>
+          <button onClick={() => navigate('/dashboard')} className="flex items-center gap-2.5">
+            <LogoIcon className="w-6.5 h-6.5" strokeWidth={2.3} />
             <span className="font-heading text-xl font-extrabold">ResumeCraft</span>
           </button>
 

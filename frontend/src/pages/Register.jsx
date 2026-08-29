@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import LogoIcon from '../components/LogoIcon';
 import { AlertCircle, ArrowRight, CheckCircle2, FileText, UserPlus, Eye, EyeOff } from 'lucide-react';
 
 export default function Register() {
@@ -45,11 +46,9 @@ export default function Register() {
     <div className="app-shell min-h-screen px-4 py-8 text-slate-900 sm:px-6 lg:px-8">
       <div className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-6xl overflow-hidden rounded-[2rem] border border-white/80 bg-white/72 shadow-2xl shadow-slate-300/40 backdrop-blur lg:grid-cols-[0.95fr_1.05fr]">
         <section className="hidden border-r border-slate-200 bg-slate-950 p-10 text-white lg:flex lg:flex-col lg:justify-between">
-          <div className="flex items-center gap-3">
-            <div className="rounded-xl bg-teal-500 p-2.5 shadow-lg shadow-teal-950/40">
-              <FileText className="h-6 w-6" />
-            </div>
-            <span className="font-heading text-2xl font-bold">ResumeCraft</span>
+          <div className="flex items-center gap-2.5">
+            <LogoIcon className="w-8 h-8" strokeWidth={2.4} />
+            <span className="font-heading text-2xl font-bold text-white">ResumeCraft</span>
           </div>
 
           <div className="space-y-5">
@@ -75,11 +74,9 @@ export default function Register() {
         <main className="flex items-center justify-center p-6 sm:p-10">
           <div className="w-full max-w-lg">
             <div className="mb-10 lg:hidden">
-              <div className="flex items-center gap-3">
-                <div className="rounded-xl bg-slate-950 p-2.5 text-white">
-                  <FileText className="h-6 w-6" />
-                </div>
-                <span className="font-heading text-2xl font-bold">ResumeCraft</span>
+              <div className="flex items-center gap-2.5">
+                <LogoIcon className="w-8 h-8" strokeWidth={2.4} />
+                <span className="font-heading text-2xl font-bold text-slate-950">ResumeCraft</span>
               </div>
             </div>
 

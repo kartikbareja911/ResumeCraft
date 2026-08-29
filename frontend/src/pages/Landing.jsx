@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import LogoIcon from '../components/LogoIcon';
 import { 
   FileText, 
   Play, 
@@ -227,9 +228,7 @@ export default function Landing() {
       }`}>
         <div className="max-w-[1200px] mx-auto px-6 flex items-center justify-between">
           <div className="font-sans text-xl font-bold flex items-center gap-2">
-            <div className="h-9 w-9 bg-[#00685f]/10 dark:bg-teal-500/10 text-[#00685f] dark:text-teal-400 rounded-lg flex items-center justify-center">
-              <FileText className="w-5 h-5" />
-            </div>
+            <LogoIcon className="w-7 h-7" strokeWidth={2.2} />
             <span className="text-slate-900 dark:text-white">ResumeCraft</span>
           </div>
 
