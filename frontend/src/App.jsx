@@ -6,6 +6,7 @@ const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Editor = lazy(() => import('./pages/Editor'));
+const Landing = lazy(() => import('./pages/Landing'));
 
 const PageLoader = () => (
   <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center">
@@ -55,6 +56,14 @@ function App() {
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route 
+              path="/" 
+              element={
+                <PublicRoute>
+                  <Landing />
+                </PublicRoute>
+              } 
+            />
+            <Route 
               path="/login" 
               element={
                 <PublicRoute>
@@ -86,7 +95,7 @@ function App() {
                 </ProtectedRoute>
               } 
             />
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
