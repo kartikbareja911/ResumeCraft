@@ -482,6 +482,48 @@ export default function Landing() {
           </div>
         </section>
 
+        {/* How It Works Section */}
+        <section id="how-it-works" className="mb-32 scroll-mt-24">
+          <h2 className="font-serif text-3xl md:text-4xl font-semibold text-center mb-16 text-slate-900 dark:text-white">
+            How It <span className="text-gradient">Works</span>
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Step 1 */}
+            <div className="flex flex-col items-center text-center p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl border-slate-200 dark:border-slate-800 shadow-sm relative z-10 hover:border-[#00685f]/30 dark:hover:border-teal-500/30 transition-all duration-300">
+              <div className="w-10 h-10 rounded-full bg-[#00685f]/10 dark:bg-teal-500/10 text-[#00685f] dark:text-teal-400 flex items-center justify-center font-bold text-lg mb-4">
+                1
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Upload or Start Fresh</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                Paste your experiences, upload a PDF/DOCX to parse with Gemini AI, or construct a template from scratch.
+              </p>
+            </div>
+            
+            {/* Step 2 */}
+            <div className="flex flex-col items-center text-center p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm relative z-10 hover:border-[#00685f]/30 dark:hover:border-teal-500/30 transition-all duration-300">
+              <div className="w-10 h-10 rounded-full bg-[#4b41e1]/10 dark:bg-indigo-500/10 text-[#4b41e1] dark:text-indigo-400 flex items-center justify-center font-bold text-lg mb-4">
+                2
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Fine-Tune Layout</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                Tweak font pairings, vertical margins, and line heights with visual sliders. Guarantee a perfect single-page fit.
+              </p>
+            </div>
+            
+            {/* Step 3 */}
+            <div className="flex flex-col items-center text-center p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm relative z-10 hover:border-[#00685f]/30 dark:hover:border-teal-500/30 transition-all duration-300">
+              <div className="w-10 h-10 rounded-full bg-[#00685f]/10 dark:bg-teal-500/10 text-[#00685f] dark:text-teal-400 flex items-center justify-center font-bold text-lg mb-4">
+                3
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">ATS Scan & Export</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                Analyze content against job requirements, repair missing keyword alerts, and export your print-ready PDF.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* ATS Interactive Showcase Section */}
         <section id="ats-check" className="mb-32 scroll-mt-24 flex flex-col items-center">
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 md:p-12 w-full max-w-4xl flex flex-col md:flex-row items-center gap-12 shadow-sm">
