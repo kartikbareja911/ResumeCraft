@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { AlertCircle, ArrowRight, CheckCircle2, FileText, UserPlus } from 'lucide-react';
+import { AlertCircle, ArrowRight, CheckCircle2, FileText, UserPlus, Eye, EyeOff } from 'lucide-react';
 
 export default function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { signup } = useAuth();
@@ -134,32 +135,50 @@ export default function Register() {
                 <label htmlFor="password" className="text-sm font-semibold text-slate-700">
                   Password
                 </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="input-premium mt-2"
-                  placeholder="Minimum 6 characters"
-                />
+                <div className="relative mt-2">
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? 'text' : 'password'}
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="input-premium pr-10"
+                    placeholder="Minimum 6 characters"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-650"
+                  >
+                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
+                </div>
               </div>
 
               <div>
                 <label htmlFor="confirmPassword" className="text-sm font-semibold text-slate-700">
                   Confirm password
                 </label>
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  required
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="input-premium mt-2"
-                  placeholder="Repeat password"
-                />
+                <div className="relative mt-2">
+                  <input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type={showPassword ? 'text' : 'password'}
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="input-premium pr-10"
+                    placeholder="Repeat password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-650"
+                  >
+                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
+                </div>
               </div>
 
               <button

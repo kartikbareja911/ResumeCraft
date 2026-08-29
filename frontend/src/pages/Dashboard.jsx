@@ -17,6 +17,9 @@ import {
   Trash2,
   UploadCloud,
   Sparkles,
+  CheckCircle2,
+  X,
+  Share2
 } from 'lucide-react';
 
 export default function Dashboard() {
@@ -41,12 +44,33 @@ export default function Dashboard() {
     }
   });
   const [error, setError] = useState('');
+  const [toast, setToast] = useState(null);
   const [actionLoading, setActionLoading] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [previewResume, setPreviewResume] = useState(null);
   const [showWakeupWarning, setShowWakeupWarning] = useState(false);
   const { user, token, logout } = useAuth();
   const navigate = useNavigate();
+
+  const showToast = (message, type = 'success') => {
+    setToast({ message, type });
+  };
+
+  useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => setToast(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
+
+  // Sync Dark Mode state to DOM
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
 
   const firstName = (user && user.name) ? user.name.split(' ')[0] : 'there';
   const stats = useMemo(() => {
@@ -102,6 +126,25 @@ export default function Dashboard() {
     fetchResumes(resumes.length > 0);
   }, [token]);
 
+  // Keyboard Shortcuts Listener
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Ctrl + / to toggle Theme
+      if (e.ctrlKey && e.key === '/') {
+        e.preventDefault();
+        toggleTheme();
+        showToast('Theme toggled!', 'success');
+      }
+      // Alt + N to create new resume
+      if (e.altKey && e.key.toLowerCase() === 'n') {
+        e.preventDefault();
+        handleCreateResume();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [resumes, actionLoading, darkMode]);
+
   const handleCreateResume = async () => {
     if (actionLoading) return;
     try {
@@ -117,13 +160,14 @@ export default function Dashboard() {
 
       if (response.ok) {
         const newResume = await response.json();
+        showToast('Resume created successfully!', 'success');
         navigate(`/editor/${newResume._id}`);
       } else {
-        setError('Failed to create resume.');
+        showToast('Failed to create resume.', 'error');
       }
     } catch (err) {
       console.error(err);
-      setError('Network error creating resume.');
+      showToast('Network error creating resume.', 'error');
     } finally {
       setActionLoading(false);
     }
@@ -139,13 +183,14 @@ export default function Dashboard() {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (response.ok) {
+        showToast('Resume duplicated successfully!', 'success');
         fetchResumes();
       } else {
-        setError('Failed to duplicate resume.');
+        showToast('Failed to duplicate resume.', 'error');
       }
     } catch (err) {
       console.error(err);
-      setError('Network error duplicating resume.');
+      showToast('Network error duplicating resume.', 'error');
     } finally {
       setActionLoading(false);
     }
@@ -166,17 +211,18 @@ export default function Dashboard() {
       });
 
       if (response.ok) {
+        showToast('Resume deleted successfully!', 'success');
         setResumes((prev) => {
           const updated = prev.filter((r) => r._id !== id);
           sessionStorage.setItem('resumecraft_resumes_cache', JSON.stringify(updated));
           return updated;
         });
       } else {
-        setError('Failed to delete resume.');
+        showToast('Failed to delete resume.', 'error');
       }
     } catch (err) {
       console.error(err);
-      setError('Network error deleting resume.');
+      showToast('Network error deleting resume.', 'error');
     } finally {
       setActionLoading(false);
     }
@@ -282,6 +328,9 @@ export default function Dashboard() {
               </div>
             ))}
           </div>
+          <div className="mt-4 flex items-center text-[11px] text-slate-450 dark:text-slate-500 select-none">
+            <span>⚡ Keyboard Shortcuts: <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-850 font-mono font-bold">Ctrl + /</kbd> Toggle Theme &nbsp;|&nbsp; <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-850 font-mono font-bold">Alt + N</kbd> Create Resume</span>
+          </div>
         </section>
 
         {error && (
@@ -301,9 +350,26 @@ export default function Dashboard() {
           </div>
 
           {loading ? (
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {[1, 2, 3].map((item) => (
-                <div key={item} className={`h-56 animate-pulse rounded-xl border ${darkMode ? 'border-teal-300/15 bg-slate-900/60' : 'border-slate-200 bg-white/70'}`} />
+                <div 
+                  key={item} 
+                  className={`p-5 rounded-xl border flex flex-col gap-4 animate-pulse ${
+                    darkMode ? 'border-teal-300/15 bg-slate-900/40' : 'border-slate-200 bg-white shadow-sm'
+                  }`}
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="w-12 h-12 rounded-lg bg-slate-200 dark:bg-slate-800" />
+                    <div className="flex gap-2">
+                      <div className="w-8 h-8 rounded-md bg-slate-100 dark:bg-slate-850" />
+                      <div className="w-8 h-8 rounded-md bg-slate-100 dark:bg-slate-850" />
+                      <div className="w-8 h-8 rounded-md bg-slate-100 dark:bg-slate-850" />
+                    </div>
+                  </div>
+                  <div className="h-6 w-3/4 rounded-md bg-slate-200 dark:bg-slate-800 mt-2" />
+                  <div className="h-3.5 w-1/2 rounded bg-slate-150 dark:bg-slate-850 mt-1" />
+                  <div className="h-8 rounded bg-slate-100 dark:bg-slate-850 mt-auto flex items-center justify-between px-3" />
+                </div>
               ))}
             </div>
           ) : resumes.length === 0 ? (
@@ -374,10 +440,21 @@ export default function Dashboard() {
                         <Copy className="h-4 w-4" />
                       </button>
                       <button
+                        title="Copy editor share link"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigator.clipboard.writeText(`${window.location.origin}/editor/${resume._id}`);
+                          showToast('Editor share link copied!', 'success');
+                        }}
+                        className={`rounded-md p-2 transition ${darkMode ? 'text-slate-300 hover:bg-teal-300/10 hover:text-teal-100' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'}`}
+                      >
+                        <Share2 className="h-4 w-4" />
+                      </button>
+                      <button
                         title="Delete resume"
                         disabled={actionLoading}
                         onClick={(e) => handleDelete(resume._id, e)}
-                        className="rounded-md p-2 text-slate-500 transition hover:bg-rose-50 hover:text-rose-600"
+                        className="rounded-md p-2 text-slate-550 transition hover:bg-rose-50 hover:text-rose-600"
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>
@@ -646,6 +723,23 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
+        </div>
+      )}
+      {/* Floating Toast Notification Popup */}
+      {toast && (
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-2xl animate-fade-in transition-all">
+          {toast.type === 'success' ? (
+            <CheckCircle2 className="w-5 h-5 text-emerald-500" />
+          ) : (
+            <AlertCircle className="w-5 h-5 text-rose-500" />
+          )}
+          <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">{toast.message}</span>
+          <button 
+            onClick={() => setToast(null)} 
+            className="ml-2 text-slate-400 hover:text-slate-650 dark:hover:text-slate-350"
+          >
+            <X className="w-4 h-4" />
+          </button>
         </div>
       )}
     </div>
