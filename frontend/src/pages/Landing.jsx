@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import LogoIcon from '../components/LogoIcon';
+import { useTheme } from '../context/ThemeContext';
 import { 
   FileText, 
   Play, 
@@ -19,6 +20,7 @@ import {
 } from 'lucide-react';
 
 export default function Landing() {
+  const { darkMode, toggleTheme } = useTheme();
   const [atsScore, setAtsScore] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -26,32 +28,24 @@ export default function Landing() {
   const [showCookieBanner, setShowCookieBanner] = useState(false);
   const [activeFaqIndex, setActiveFaqIndex] = useState(null);
 
-  // Dark Mode State
-  const [darkMode, setDarkMode] = useState(() => {
-    const saved = localStorage.getItem('theme');
-    return saved ? saved === 'dark' : false;
-  });
-
-  // Track user scroll for header state and back-to-top button
+  // Track user scroll for header state and back-to-top button with RAF throttling
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-      setShowBackToTop(window.scrollY > 400);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrolled = window.scrollY > 20;
+          const backToTop = window.scrollY > 400;
+          setIsScrolled(prev => (prev !== scrolled ? scrolled : prev));
+          setShowBackToTop(prev => (prev !== backToTop ? backToTop : prev));
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Sync Dark Mode state to DOM
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [darkMode]);
 
   // Sync ATS progress ring on mount
   useEffect(() => {
@@ -129,35 +123,6 @@ export default function Landing() {
           color: transparent;
         }
 
-        /* Ambient Glow Blobs */
-        .glow-bg {
-          position: absolute;
-          width: 600px;
-          height: 600px;
-          background: radial-gradient(circle, rgba(0, 104, 95, 0.05) 0%, rgba(248, 250, 252, 0) 70%);
-          top: -100px;
-          left: -100px;
-          z-index: 0;
-          pointer-events: none;
-        }
-        .dark .glow-bg {
-          background: radial-gradient(circle, rgba(45, 212, 191, 0.05) 0%, rgba(2, 6, 23, 0) 70%);
-        }
-
-        .glow-bg-2 {
-          position: absolute;
-          width: 800px;
-          height: 800px;
-          background: radial-gradient(circle, rgba(75, 65, 225, 0.04) 0%, rgba(248, 250, 252, 0) 70%);
-          bottom: -200px;
-          right: -200px;
-          z-index: 0;
-          pointer-events: none;
-        }
-        .dark .glow-bg-2 {
-          background: radial-gradient(circle, rgba(99, 102, 241, 0.04) 0%, rgba(2, 6, 23, 0) 70%);
-        }
-
         /* Animations */
         @keyframes scan {
           0% { transform: translateY(0); opacity: 0; }
@@ -216,14 +181,21 @@ export default function Landing() {
         }
       `}</style>
 
-      {/* Ambient Glows */}
-      <div className="glow-bg" />
-      <div className="glow-bg-2" />
+      {/* Ambient Glows with Smooth Cross-Fade */}
+      <div className="absolute top-[-100px] left-[-100px] w-[600px] h-[600px] pointer-events-none z-0 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(0,104,95,0.06)_0%,rgba(248,250,252,0)_70%)] transition-opacity duration-300 dark:opacity-0" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(45,212,191,0.06)_0%,rgba(2,6,23,0)_70%)] opacity-0 transition-opacity duration-300 dark:opacity-100" />
+      </div>
+
+      <div className="absolute bottom-[-200px] right-[-200px] w-[800px] h-[800px] pointer-events-none z-0 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(75,65,225,0.05)_0%,rgba(248,250,252,0)_70%)] transition-opacity duration-300 dark:opacity-0" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(99,102,241,0.05)_0%,rgba(2,6,23,0)_70%)] opacity-0 transition-opacity duration-300 dark:opacity-100" />
+      </div>
 
       {/* Sticky Header Nav */}
-      <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+      <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 backdrop-blur-md ${
         isScrolled 
-          ? 'bg-white/90 dark:bg-slate-900/90 shadow-md border-b border-slate-200/80 dark:border-slate-800/80 py-3' 
+          ? 'bg-white/85 dark:bg-slate-900/85 shadow-sm border-b border-slate-200/80 dark:border-slate-800/80 py-3' 
           : 'bg-transparent border-b border-transparent py-4'
       }`}>
         <div className="max-w-[1200px] mx-auto px-6 flex items-center justify-between">
@@ -243,11 +215,18 @@ export default function Landing() {
           <div className="flex items-center gap-3">
             {/* Dark Mode Toggle Button */}
             <button 
-              onClick={() => setDarkMode(!darkMode)}
-              className="p-2.5 rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-850 text-slate-600 dark:text-slate-350 transition-colors"
+              onClick={toggleTheme}
+              className="p-2.5 rounded-full hover:bg-slate-200/60 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center relative overflow-hidden"
               aria-label="Toggle theme"
+              title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
             >
-              {darkMode ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5" />}
+              <div className={`transition-transform duration-500 transform ${darkMode ? 'rotate-180' : 'rotate-0'}`}>
+                {darkMode ? (
+                  <Sun className="w-5 h-5 text-amber-400 transition-colors" />
+                ) : (
+                  <Moon className="w-5 h-5 text-slate-700 dark:text-slate-200 transition-colors" />
+                )}
+              </div>
             </button>
 
             {/* Login Link */}
@@ -288,12 +267,21 @@ export default function Landing() {
           <div className="relative w-72 max-w-sm bg-white dark:bg-slate-900 p-6 flex flex-col gap-6 shadow-2xl h-full animate-fade-in border-l border-slate-200 dark:border-slate-800">
             <div className="flex items-center justify-between">
               <span className="font-bold text-slate-900 dark:text-white">Navigation</span>
-              <button 
-                onClick={() => setMobileMenuOpen(false)}
-                className="p-2 rounded-lg text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-850"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-2">
+                <button 
+                  onClick={toggleTheme}
+                  className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors"
+                  aria-label="Toggle theme"
+                >
+                  {darkMode ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-slate-700" />}
+                </button>
+                <button 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="p-2 rounded-lg text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-850"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
             
             <nav className="flex flex-col gap-4 text-base font-semibold text-slate-700 dark:text-slate-300">

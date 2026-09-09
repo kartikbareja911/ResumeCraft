@@ -6,19 +6,40 @@
 
 @layer base {
   :root {
-    color-scheme: light;
+    color-scheme: light dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 
   * {
     box-sizing: border-box;
   }
 
+  /* Smooth Theme Transition Class */
+  html.theme-transitioning,
+  html.theme-transitioning *,
+  html.theme-transitioning *::before,
+  html.theme-transitioning *::after {
+    transition: background-color 0.3s ease-in-out,
+                border-color 0.3s ease-in-out,
+                color 0.3s ease-in-out,
+                fill 0.3s ease-in-out,
+                stroke 0.3s ease-in-out,
+                box-shadow 0.3s ease-in-out !important;
+  }
+
   body {
-    @apply font-sans text-slate-900 antialiased selection:bg-teal-200 selection:text-teal-950;
+    @apply font-sans text-slate-900 dark:text-slate-100 bg-slate-50 dark:bg-slate-950 antialiased selection:bg-teal-200 selection:text-teal-950;
     margin: 0;
-    background:
-      linear-gradient(120deg, rgba(20, 184, 166, 0.08), transparent 34%),
-      linear-gradient(180deg, #f8fafc 0%, #eef2f7 48%, #e7edf3 100%);
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   button,

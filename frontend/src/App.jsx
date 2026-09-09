@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 const Login = lazy(() => import('./pages/Login'));
 const Register = lazy(() => import('./pages/Register'));
@@ -51,8 +52,9 @@ function App() {
   }, []);
 
   return (
-    <AuthProvider>
-      <BrowserRouter>
+    <ThemeProvider>
+      <AuthProvider>
+        <BrowserRouter>
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route 
@@ -100,6 +102,7 @@ function App() {
         </Suspense>
       </BrowserRouter>
     </AuthProvider>
+  </ThemeProvider>
   );
 }
 

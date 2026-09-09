@@ -41,9 +41,21 @@
       },
       "description": "ResumeCraft is an AI-powered professional resume builder that creates formatted single-page resumes with real-time feedback and ATS optimization."
     }
+    <!-- Prevent Flash of Unstyled / Wrong Theme on Load -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('theme');
+          if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
     </script>
   </head>
-  <body class="bg-slate-900 text-slate-100 antialiased min-h-screen">
+  <body class="antialiased min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 selection:bg-teal-500/20 selection:text-teal-600 dark:selection:text-teal-400">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
