@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useLayoutEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect, useLayoutEffect, useContext, flushSync } from 'react';
 
 const ThemeContext = createContext(null);
 
@@ -16,28 +16,34 @@ export const ThemeProvider = ({ children }) => {
     return false;
   });
 
+  // Apply the theme class to <html> and persist the choice.
   useIsomorphicLayoutEffect(() => {
     const root = document.documentElement;
-    
-    // Add temporary class to enable smooth transition on theme switch
-    root.classList.add('theme-transitioning');
-    
-    if (darkMode) {
-      root.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      root.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
+    root.classList.toggle('dark', darkMode);
+    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
 
-    const timer = setTimeout(() => {
-      root.classList.remove('theme-transitioning');
-    }, 350);
-
+    // Remove the fallback transition class once colors have settled.
+    const timer = setTimeout(() => root.classList.remove('theme-transitioning'), 350);
     return () => clearTimeout(timer);
   }, [darkMode]);
 
-  const toggleTheme = () => setDarkMode((prev) => !prev);
+  const toggleTheme = () => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Preferred path: the View Transitions API crossfades the whole page in a
+    // single GPU-composited pass, which is far smoother than transitioning
+    // color properties on every element.
+    if (typeof document.startViewTransition === 'function' && !prefersReducedMotion) {
+      document.startViewTransition(() => {
+        flushSync(() => setDarkMode((prev) => !prev));
+      });
+      return;
+    }
+
+    // Fallback: temporarily opt elements into a short color transition.
+    document.documentElement.classList.add('theme-transitioning');
+    setDarkMode((prev) => !prev);
+  };
 
   return (
     <ThemeContext.Provider value={{ darkMode, setDarkMode, toggleTheme }}>
@@ -54,4 +60,3 @@ export const useTheme = () => {
   }
   return context;
 };
-

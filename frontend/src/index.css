@@ -6,7 +6,11 @@
 
 @layer base {
   :root {
-    color-scheme: light dark;
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
   }
 
   html {
@@ -23,7 +27,7 @@
     box-sizing: border-box;
   }
 
-  /* Smooth Theme Transition Class */
+  /* Smooth Theme Transition Class (fallback for browsers without View Transitions) */
   html.theme-transitioning,
   html.theme-transitioning *,
   html.theme-transitioning *::before,
@@ -34,6 +38,13 @@
                 fill 0.3s ease-in-out,
                 stroke 0.3s ease-in-out,
                 box-shadow 0.3s ease-in-out !important;
+  }
+
+  /* Theme crossfade via the View Transitions API (preferred path) */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.25s;
+    animation-timing-function: ease-in-out;
   }
 
   body {

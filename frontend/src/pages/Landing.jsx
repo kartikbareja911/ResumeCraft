@@ -96,7 +96,7 @@ export default function Landing() {
   ];
 
   return (
-    <div className="bg-[#F8FAFC] dark:bg-slate-950 text-[#131b2e] dark:text-slate-100 min-h-screen font-sans overflow-x-hidden relative selection:bg-[#00685f]/10 selection:text-[#00685f] transition-colors duration-300">
+    <div className="bg-[#F8FAFC] dark:bg-slate-950 text-[#131b2e] dark:text-slate-100 min-h-screen font-sans overflow-x-clip relative selection:bg-[#00685f]/10 selection:text-[#00685f] transition-colors duration-300">
       
       {/* Accessibility Skip Link */}
       <a href="#main-content" className="skip-link">
@@ -137,47 +137,57 @@ export default function Landing() {
         }
         
         @keyframes slider-move {
-          0%, 100% { width: 60%; }
-          50% { width: 85%; }
+          0%, 100% { transform: scaleX(0.6); }
+          50% { transform: scaleX(0.85); }
         }
 
         @keyframes slider-move-2 {
-          0%, 100% { width: 45%; }
-          50% { width: 75%; }
+          0%, 100% { transform: scaleX(0.45); }
+          50% { transform: scaleX(0.75); }
         }
 
         @keyframes ghost-type {
-          0%, 100% { width: 25%; opacity: 0.5; }
-          50% { width: 90%; opacity: 1; }
+          0%, 100% { transform: scaleX(0.25); opacity: 0.5; }
+          50% { transform: scaleX(0.9); opacity: 1; }
         }
         
         @keyframes ghost-type-2 {
-          0%, 100% { width: 66%; opacity: 0.5; }
-          50% { width: 95%; opacity: 1; }
+          0%, 100% { transform: scaleX(0.66); opacity: 0.5; }
+          50% { transform: scaleX(0.95); opacity: 1; }
         }
 
         .animate-float-editor {
           animation: float-editor 6s ease-in-out infinite;
+          will-change: transform;
         }
 
         .animate-slider {
           animation: slider-move 4s ease-in-out infinite;
+          transform-origin: left center;
+          will-change: transform;
         }
 
         .animate-slider-2 {
           animation: slider-move-2 5s ease-in-out infinite;
+          transform-origin: left center;
+          will-change: transform;
         }
 
         .animate-ghost-type {
           animation: ghost-type 4s ease-in-out infinite;
+          transform-origin: left center;
+          will-change: transform;
         }
 
         .animate-ghost-type-2 {
           animation: ghost-type-2 5s ease-in-out infinite;
+          transform-origin: left center;
+          will-change: transform;
         }
 
         .animate-scan {
           animation: scan 3.5s ease-in-out infinite;
+          will-change: transform;
         }
       `}</style>
 
@@ -193,9 +203,9 @@ export default function Landing() {
       </div>
 
       {/* Sticky Header Nav */}
-      <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 backdrop-blur-md ${
+      <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-white/85 dark:bg-slate-900/85 shadow-sm border-b border-slate-200/80 dark:border-slate-800/80 py-3' 
+          ? 'bg-white/85 dark:bg-slate-900/85 backdrop-blur-md shadow-sm border-b border-slate-200/80 dark:border-slate-800/80 py-3' 
           : 'bg-transparent border-b border-transparent py-4'
       }`}>
         <div className="max-w-[1200px] mx-auto px-6 flex items-center justify-between">
@@ -376,7 +386,7 @@ export default function Landing() {
                     <span>24px</span>
                   </div>
                   <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-                    <div className="w-2/3 h-full bg-[#00685f] dark:bg-teal-500 animate-slider" />
+                    <div className="w-full h-full bg-[#00685f] dark:bg-teal-500 animate-slider" />
                   </div>
                 </div>
                 
@@ -386,7 +396,7 @@ export default function Landing() {
                     <span>1.6</span>
                   </div>
                   <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-                    <div className="w-1/2 h-full bg-[#4b41e1] dark:bg-indigo-500 animate-slider-2" />
+                    <div className="w-full h-full bg-[#4b41e1] dark:bg-indigo-500 animate-slider-2" />
                   </div>
                 </div>
                 
@@ -405,15 +415,15 @@ export default function Landing() {
                 
                 <div className="space-y-3">
                   <div>
-                    <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-1/4 mb-1.5 animate-ghost-type" />
+                    <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-full mb-1.5 animate-ghost-type" />
                     <div className="h-1.5 bg-slate-100 dark:bg-slate-850 rounded w-full mb-1" />
-                    <div className="h-1.5 bg-slate-100 dark:bg-slate-850 rounded w-5/6 animate-ghost-type-2" />
+                    <div className="h-1.5 bg-slate-100 dark:bg-slate-850 rounded w-full animate-ghost-type-2" />
                   </div>
                   
                   <div>
-                    <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-1/5 mb-1.5 animate-ghost-type" style={{ animationDelay: '1s' }} />
+                    <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-full mb-1.5 animate-ghost-type" style={{ animationDelay: '1s' }} />
                     <div className="h-1.5 bg-slate-100 dark:bg-slate-850 rounded w-full mb-1" />
-                    <div className="h-1.5 bg-slate-100 dark:bg-slate-850 rounded w-4/5 animate-ghost-type-2" style={{ animationDelay: '1.5s' }} />
+                    <div className="h-1.5 bg-slate-100 dark:bg-slate-850 rounded w-full animate-ghost-type-2" style={{ animationDelay: '1.5s' }} />
                   </div>
                 </div>
                 
