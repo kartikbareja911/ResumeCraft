@@ -1,4 +1,5 @@
-import React, { createContext, useState, useEffect, useLayoutEffect, useContext, flushSync } from 'react';
+import React, { createContext, useState, useEffect, useLayoutEffect, useContext } from 'react';
+import { flushSync } from 'react-dom';
 
 const ThemeContext = createContext(null);
 
