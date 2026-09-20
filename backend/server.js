@@ -14,6 +14,20 @@ const app = express();
 app.set('trust proxy', process.env.TRUST_PROXY === 'true' ? 1 : false);
 
 app.disable('x-powered-by');
+
+// Enforce HTTPS in production. TLS terminates at the proxy (Render, Nginx…),
+// so the original protocol arrives via X-Forwarded-Proto; redirect plain HTTP
+// requests to their HTTPS equivalent with a permanent 301.
+app.use((req, res, next) => {
+  if (isProduction) {
+    const proto = req.headers['x-forwarded-proto'];
+    if (proto && proto.split(',')[0].trim() !== 'https') {
+      return res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
+    }
+  }
+  next();
+});
+
 app.use(helmet());
 app.use(cors({ origin: CORS_ORIGIN }));
 app.use(express.json({ limit: '1mb' }));

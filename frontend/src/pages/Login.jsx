@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import LogoIcon from '../components/LogoIcon';
+import SEO from '../components/SEO';
 import { AlertCircle, ArrowRight, FileText, LogIn, Eye, EyeOff } from 'lucide-react';
 
 export default function Login() {
@@ -34,6 +35,7 @@ export default function Login() {
 
   return (
     <div className="app-shell min-h-screen px-4 py-8 text-slate-900 sm:px-6 lg:px-8">
+      <SEO title="Sign In" description="Sign in to your ResumeCraft workspace to keep editing resumes, tune layouts, and download the latest version." path="/login" noindex />
       <div className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-6xl overflow-hidden rounded-[2rem] border border-white/80 bg-white/72 shadow-2xl shadow-slate-300/40 backdrop-blur lg:grid-cols-[1.05fr_0.95fr]">
         <section className="hidden border-r border-slate-200 bg-slate-950 p-10 text-white lg:flex lg:flex-col lg:justify-between">
           <div className="flex items-center gap-2.5">

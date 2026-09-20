@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import LogoIcon from '../components/LogoIcon';
 import UploadResumeModal from '../components/UploadResumeModal';
+import SEO from '../components/SEO';
 import {
   AlertCircle,
   Calendar,
@@ -234,6 +235,7 @@ export default function Dashboard() {
 
   return (
     <div className={`min-h-screen transition-colors ${darkMode ? 'workspace-shell text-slate-100' : 'app-shell text-slate-900'}`}>
+      <SEO title="Dashboard" path="/dashboard" noindex />
       <header className={`sticky top-0 z-30 border-b backdrop-blur-xl ${darkMode ? 'border-teal-300/15 bg-slate-950/78 shadow-lg shadow-teal-950/20' : 'border-white/70 bg-white/72'}`}>
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <button onClick={() => navigate('/dashboard')} className="flex items-center gap-2.5">

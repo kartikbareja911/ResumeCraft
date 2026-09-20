@@ -8,6 +8,8 @@ const Register = lazy(() => import('./pages/Register'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Editor = lazy(() => import('./pages/Editor'));
 const Landing = lazy(() => import('./pages/Landing'));
+const Privacy = lazy(() => import('./pages/Privacy'));
+const Terms = lazy(() => import('./pages/Terms'));
 
 const PageLoader = () => (
   <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center">
@@ -97,6 +99,8 @@ function App() {
                 </ProtectedRoute>
               } 
             />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>

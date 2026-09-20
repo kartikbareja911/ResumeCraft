@@ -1,0 +1,17 @@
+# ResumeCraft robots.txt
+# Public marketing pages are crawlable; private app areas and the API are not.
+
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /editor
+Disallow: /api
+
+# Crawl-delay for aggressive generic bots (ignored by Googlebot, honored by many others)
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+Sitemap: https://resumecraftco.vercel.app/sitemap.xml

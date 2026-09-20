@@ -2,46 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <title>ResumeCraft - AI-Powered Rich Resume Builder & ATS Score Engine</title>
-    <meta name="description" content="ResumeCraft gives you full styling freedom to build rich resumes with real-time ATS scoring, keyword optimization, and layout audit diagnostics powered by AI." />
-    
-    <!-- OpenGraph Social Preview Meta Tags -->
-    <meta property="og:title" content="ResumeCraft - AI-Powered Rich Resume Builder & ATS Score Engine" />
-    <meta property="og:description" content="ResumeCraft gives you full styling freedom to build rich resumes with real-time ATS scoring, keyword optimization, and layout audit diagnostics powered by AI." />
-    <meta property="og:image" content="https://resume-craft-two-teal.vercel.app/social-preview.png" />
-    <meta property="og:url" content="https://resume-craft-two-teal.vercel.app" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="ResumeCraft - AI-Powered Rich Resume Builder" />
-    <meta name="twitter:description" content="ResumeCraft gives you full styling freedom to build rich resumes with real-time ATS scoring, keyword optimization, and layout audit diagnostics powered by AI." />
-    
-    <!-- Google Fonts: UI fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Core UI + Resume serif & sans fonts (Critical, fast load) -->
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&family=Outfit:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;600&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
-    <!-- Extended resume fonts (Asynchronous background load so page renders immediately) -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Karla:wght@400;600&family=Mulish:wght@400;600&family=Lato:wght@400;700&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&family=Courier+Prime:wght@400;700&display=swap" media="print" onload="this.media='all'">
-    
-    <!-- JSON-LD Structured Data for Search Engine Optimization (SEO) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "ResumeCraft",
-      "operatingSystem": "All",
-      "applicationCategory": "BusinessApplication",
-      "offers": {
-        "@type": "Offer",
-        "price": "0.00",
-        "priceCurrency": "USD"
-      },
-      "description": "ResumeCraft is an AI-powered professional resume builder that creates formatted single-page resumes with real-time feedback and ATS optimization."
-    }
-    <!-- Prevent Flash of Unstyled / Wrong Theme on Load -->
+
+    <!-- Prevent Flash of Unstyled / Wrong Theme on Load (must run before first paint) -->
     <script>
       (function() {
         try {
@@ -53,6 +16,98 @@
           }
         } catch (e) {}
       })();
+    </script>
+
+    <!-- Primary SEO Meta Tags -->
+    <title>Free AI Resume Builder &amp; ATS Score Checker — ResumeCraft</title>
+    <meta name="description" content="ResumeCraft is a free AI-powered resume builder: parse your resume with Gemini AI, style every pixel, score it against any job description with a real-time ATS checker, and export a print-ready single-page PDF." />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="author" content="ResumeCraft" />
+    <link rel="canonical" href="https://resumecraftco.vercel.app/" />
+
+    <!-- OpenGraph Social Preview Meta Tags -->
+    <meta property="og:site_name" content="ResumeCraft" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Free AI Resume Builder &amp; ATS Score Checker — ResumeCraft" />
+    <meta property="og:description" content="Parse your resume with Gemini AI, style every pixel, score it against any job description with a real-time ATS checker, and export a print-ready single-page PDF — free." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://resumecraftco.vercel.app/" />
+    <meta property="og:image" content="https://resumecraftco.vercel.app/social-preview.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="ResumeCraft — free AI-powered resume builder with real-time ATS match scoring" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Free AI Resume Builder &amp; ATS Score Checker — ResumeCraft" />
+    <meta name="twitter:description" content="Parse your resume with Gemini AI, score it against any job description with a real-time ATS checker, and export a print-ready single-page PDF — free." />
+    <meta name="twitter:image" content="https://resumecraftco.vercel.app/social-preview.png" />
+    <meta name="twitter:image:alt" content="ResumeCraft — free AI-powered resume builder with real-time ATS match scoring" />
+
+    <!-- Google Search Console ownership verification.
+         After adding your property at https://search.google.com/search-console,
+         paste the <meta name="google-site-verification" content="TOKEN"> tag from
+         Google right below this comment, then redeploy. See SEO-CHECKLIST.md. -->
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Theme color for mobile browser chrome -->
+    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+
+    <!-- Google Fonts: UI fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Above-the-fold fonts only (Inter body, Outfit headings, EB Garamond landing serif).
+         Everything else loads asynchronously below so first paint is never blocked. -->
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Extended resume fonts (asynchronous background load so the page renders immediately) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Karla:wght@400;600&family=Mulish:wght@400;600&family=Lato:wght@400;700&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&family=Courier+Prime:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@400;600&family=Source+Code+Pro:wght@400;600&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Karla:wght@400;600&family=Mulish:wght@400;600&family=Lato:wght@400;700&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&family=Courier+Prime:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@400;600&family=Source+Code+Pro:wght@400;600&display=swap">
+    </noscript>
+
+    <!-- JSON-LD Structured Data: WebApplication + Organization + WebSite -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "ResumeCraft",
+          "url": "https://resumecraftco.vercel.app/",
+          "operatingSystem": "All",
+          "applicationCategory": "BusinessApplication",
+          "browserRequirements": "Requires JavaScript",
+          "offers": {
+            "@type": "Offer",
+            "price": "0.00",
+            "priceCurrency": "USD"
+          },
+          "description": "ResumeCraft is a free AI-powered resume builder that creates formatted single-page resumes with real-time ATS match scoring, keyword optimization, and layout audit diagnostics.",
+          "featureList": "AI resume parsing, Real-time ATS score checker, Single-page layout controls, PDF export, Resume upload and parsing",
+          "inLanguage": "en"
+        },
+        {
+          "@type": "Organization",
+          "name": "ResumeCraft",
+          "url": "https://resumecraftco.vercel.app/",
+          "logo": "https://resumecraftco.vercel.app/favicon.svg",
+          "image": "https://resumecraftco.vercel.app/social-preview.png"
+        },
+        {
+          "@type": "WebSite",
+          "name": "ResumeCraft",
+          "url": "https://resumecraftco.vercel.app/",
+          "inLanguage": "en",
+          "publisher": {
+            "@type": "Organization",
+            "name": "ResumeCraft"
+          }
+        }
+      ]
+    }
     </script>
   </head>
   <body class="antialiased min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 selection:bg-teal-500/20 selection:text-teal-600 dark:selection:text-teal-400">

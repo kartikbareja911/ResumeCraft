@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import LogoIcon from '../components/LogoIcon';
+import SEO from '../components/SEO';
 import { AlertCircle, ArrowRight, CheckCircle2, FileText, UserPlus, Eye, EyeOff } from 'lucide-react';
 
 export default function Register() {
@@ -44,6 +45,7 @@ export default function Register() {
 
   return (
     <div className="app-shell min-h-screen px-4 py-8 text-slate-900 sm:px-6 lg:px-8">
+      <SEO title="Create a Free Account" description="Create your free ResumeCraft account and jump straight into building your first professional, ATS-optimized resume." path="/register" noindex />
       <div className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-6xl overflow-hidden rounded-[2rem] border border-white/80 bg-white/72 shadow-2xl shadow-slate-300/40 backdrop-blur lg:grid-cols-[0.95fr_1.05fr]">
         <section className="hidden border-r border-slate-200 bg-slate-950 p-10 text-white lg:flex lg:flex-col lg:justify-between">
           <div className="flex items-center gap-2.5">
@@ -52,9 +54,9 @@ export default function Register() {
           </div>
 
           <div className="space-y-5">
-            <h2 className="font-heading text-4xl font-extrabold leading-tight">
+            <p className="font-heading text-4xl font-extrabold leading-tight">
               Make every application look intentional.
-            </h2>
+            </p>
             {['Structured resume builder', 'Live A4 preview', 'PDF export workflow'].map((item) => (
               <div key={item} className="flex items-center gap-3 text-sm text-slate-200">
                 <CheckCircle2 className="h-5 w-5 text-teal-400" />

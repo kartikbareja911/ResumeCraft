@@ -13,6 +13,18 @@ export default {
         serif: ['Playfair Display', 'serif'],
         mono: ['Fira Code', 'monospace'],
       },
+      // Intermediate steps referenced by the markup but absent from the
+      // default scales — without these the classes silently no-op.
+      // Values match the nearest default Tailwind step.
+      borderWidth: {
+        3: '3px',
+      },
+      spacing: {
+        5.5: '1.375rem',
+      },
+      scale: {
+        108: '1.08',
+      },
       colors: {
         brand: {
           50: '#eef2ff',
@@ -28,8 +40,17 @@ export default {
           950: '#1e1b4b',
         },
         slate: {
+          55: '#f1f5f9',
+          150: '#f1f5f9',
+          350: '#cbd5e1',
+          405: '#94a3b8',
+          450: '#94a3b8',
+          650: '#475569',
           850: '#1e293b', // Customized Slate colors for contrast
           950: '#0f172a'
+        },
+        teal: {
+          450: '#2dd4bf'
         }
       },
       animation: {

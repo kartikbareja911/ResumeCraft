@@ -6,6 +6,7 @@ import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import AtsPanel from '../components/AtsPanel';
 import UploadResumeModal from '../components/UploadResumeModal';
+import SEO from '../components/SEO';
 import { 
   ArrowLeft, Save, Printer, Eye, Palette, 
   ListOrdered, Plus, Trash2, ChevronDown, ChevronUp, 
@@ -709,12 +710,12 @@ export default function Editor() {
     
     return (
       <div key={section.id} className="space-y-2.5 text-[1em]" style={{ marginTop: styles.sectionSpacing }}>
-        <h3 
-          className="text-[0.95em] font-extrabold uppercase tracking-wider border-b-2 pb-1 text-slate-950 flex items-center gap-1.5"
+        <div 
+          className="resume-section-title text-[0.95em] font-extrabold uppercase tracking-wider border-b-2 pb-1 text-slate-950 flex items-center gap-1.5"
           style={{ color: styles.primaryColor, borderColor: styles.primaryColor }}
         >
           {section.name}
-        </h3>
+        </div>
 
         {section.id === 'summary' && section.text && (
           <p className="text-[0.9em] text-slate-950 leading-relaxed text-justify">
@@ -881,6 +882,8 @@ export default function Editor() {
 
   return (
     <div className={`${editorShellClass} fixed inset-0 flex flex-col overflow-hidden`}>
+      <SEO title="Resume Editor" path="/editor" noindex />
+      <h1 className="sr-only">Resume Editor</h1>
       {/* Top Header Controls Panel (no-print) */}
       <header className={`h-16 border-b backdrop-blur-xl flex items-center justify-between px-6 z-20 no-print select-none gap-4 ${headerClass}`}>
         <div className="flex items-center gap-4 min-w-0 flex-1">
@@ -1881,12 +1884,12 @@ export default function Editor() {
                 <div className="w-full flex flex-col h-full text-slate-950">
                   {/* HEADER: Personal Information */}
                   <div className="text-center border-b-2 pb-4 mb-4" style={{ borderColor: styles.primaryColor }}>
-                    <h1 className="text-[2.2em] font-extrabold tracking-tight uppercase text-slate-950" style={{ color: styles.primaryColor, fontFamily: 'var(--name-font-family)' }}>
+                    <div className="text-[2.2em] font-extrabold tracking-tight uppercase text-slate-950" style={{ color: styles.primaryColor, fontFamily: 'var(--name-font-family)' }}>
                       {personalInfo.name || 'Your Full Name'}
-                    </h1>
-                    <h2 className="text-[1em] font-semibold tracking-wider text-slate-800 uppercase mt-0.5">
+                    </div>
+                    <div className="text-[1em] font-semibold tracking-wider text-slate-800 uppercase mt-0.5">
                       {personalInfo.title || 'Target Job Title'}
-                    </h2>
+                    </div>
                     <div className="flex flex-wrap items-center justify-center gap-y-1.5 gap-x-3 text-[0.88em] mt-3 text-slate-900">
                       {personalInfo.email && <span>{personalInfo.email}</span>}
                       {personalInfo.phone && <><span className="text-slate-400">•</span><span>{personalInfo.phone}</span></>}
@@ -1928,17 +1931,17 @@ export default function Editor() {
                   >
                     {/* Name and Job Title */}
                     <div className="space-y-1 select-none border-b pb-4 mb-2" style={{ borderColor: 'rgba(255,255,255,0.15)' }}>
-                      <h1 className="text-[1.8em] font-extrabold tracking-tight uppercase leading-tight text-white" style={{ fontFamily: 'var(--name-font-family)' }}>
+                      <div className="text-[1.8em] font-extrabold tracking-tight uppercase leading-tight text-white" style={{ fontFamily: 'var(--name-font-family)' }}>
                         {personalInfo.name || 'Your Name'}
-                      </h1>
-                      <h2 className="text-[0.85em] font-semibold tracking-wider text-slate-200 uppercase">
+                      </div>
+                      <div className="text-[0.85em] font-semibold tracking-wider text-slate-200 uppercase">
                         {personalInfo.title || 'Job Title'}
-                      </h2>
+                      </div>
                     </div>
 
                     {/* Contact info details styled in sidebar */}
                     <div className="space-y-3">
-                      <h4 className="text-[0.75em] font-bold uppercase tracking-wider border-b pb-1 text-white" style={{ borderColor: 'rgba(255,255,255,0.2)' }}>Contact</h4>
+                      <div className="text-[0.75em] font-bold uppercase tracking-wider border-b pb-1 text-white" style={{ borderColor: 'rgba(255,255,255,0.2)' }}>Contact</div>
                       <div className="space-y-2.5 text-[0.8em] text-slate-200 break-all">
                         {personalInfo.email && (
                           <div className="flex flex-col"><span className="text-[0.7em] text-slate-300 font-semibold uppercase">Email</span><span>{personalInfo.email}</span></div>
@@ -1964,7 +1967,7 @@ export default function Editor() {
                     {/* Render Skills & Languages inside sidebar (colored headers and styling) */}
                     <div className="space-y-5 custom-sidebar-widgets text-slate-200 select-text">
                       <style dangerouslySetInnerHTML={{__html: `
-                        .custom-sidebar-widgets h3 {
+                        .custom-sidebar-widgets .resume-section-title {
                           color: #ffffff !important;
                           border-bottom-color: rgba(255,255,255,0.2) !important;
                         }
@@ -1994,12 +1997,12 @@ export default function Editor() {
                   {/* HEADER: Left-aligned modern layout */}
                   <div className="flex justify-between items-start border-b-2 pb-4 mb-4" style={{ borderColor: styles.primaryColor }}>
                     <div>
-                      <h1 className="text-[2.2em] font-extrabold tracking-tight uppercase text-slate-950" style={{ color: styles.primaryColor, fontFamily: 'var(--name-font-family)' }}>
+                      <div className="text-[2.2em] font-extrabold tracking-tight uppercase text-slate-950" style={{ color: styles.primaryColor, fontFamily: 'var(--name-font-family)' }}>
                         {personalInfo.name || 'Your Full Name'}
-                      </h1>
-                      <h2 className="text-[1em] font-semibold tracking-wider text-slate-800 uppercase mt-0.5">
+                      </div>
+                      <div className="text-[1em] font-semibold tracking-wider text-slate-800 uppercase mt-0.5">
                         {personalInfo.title || 'Target Job Title'}
-                      </h2>
+                      </div>
                     </div>
                     <div className="text-right text-[0.85em] text-slate-900 space-y-1">
                       {personalInfo.email && <div>{personalInfo.email}</div>}
@@ -2033,12 +2036,12 @@ export default function Editor() {
                 <div className="w-full flex flex-col h-full text-slate-950">
                   {/* HEADER: Elegant serif style */}
                   <div className="text-center border-t-2 border-b-2 py-4 mb-4" style={{ borderColor: styles.primaryColor }}>
-                    <h1 className="text-[2.2em] font-extrabold tracking-wide uppercase text-slate-950" style={{ color: styles.primaryColor, fontFamily: 'var(--name-font-family)' }}>
+                    <div className="text-[2.2em] font-extrabold tracking-wide uppercase text-slate-950" style={{ color: styles.primaryColor, fontFamily: 'var(--name-font-family)' }}>
                       {personalInfo.name || 'Your Full Name'}
-                    </h1>
-                    <h2 className="text-[1em] font-semibold tracking-wider text-slate-800 uppercase mt-0.5">
+                    </div>
+                    <div className="text-[1em] font-semibold tracking-wider text-slate-800 uppercase mt-0.5">
                       {personalInfo.title || 'Target Job Title'}
-                    </h2>
+                    </div>
                     <div className="flex flex-wrap items-center justify-center gap-y-1.5 gap-x-4 text-[0.88em] mt-3 text-slate-900">
                       {personalInfo.email && <span>{personalInfo.email}</span>}
                       {personalInfo.phone && <span>{personalInfo.phone}</span>}

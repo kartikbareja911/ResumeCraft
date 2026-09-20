@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import LogoIcon from '../components/LogoIcon';
+import SEO from '../components/SEO';
 import { useTheme } from '../context/ThemeContext';
 import { 
   FileText, 
@@ -95,9 +96,25 @@ export default function Landing() {
     }
   ];
 
+  // FAQPage structured data must mirror the visible accordion above.
+  const faqJsonLd = {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: { '@type': 'Answer', text: faq.a }
+    }))
+  };
+
   return (
     <div className="bg-[#F8FAFC] dark:bg-slate-950 text-[#131b2e] dark:text-slate-100 min-h-screen font-sans overflow-x-clip relative selection:bg-[#00685f]/10 selection:text-[#00685f] transition-colors duration-300">
-      
+      <SEO
+        title="Free AI Resume Builder & ATS Score Checker"
+        description="Build a single-page resume that beats the ATS. Parse your resume with Gemini AI, run live ATS keyword checks, and export a print-ready PDF — free."
+        path="/"
+        jsonLd={faqJsonLd}
+      />
+
       {/* Accessibility Skip Link */}
       <a href="#main-content" className="skip-link">
         Skip to main content
@@ -105,8 +122,8 @@ export default function Landing() {
 
       {/* Embedded Custom Styles */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700;800&display=swap');
-        
+        /* Fonts (EB Garamond + Inter) are preloaded in index.html — no @import here,
+           it would trigger a second render-blocking font request. */
         .font-serif {
           font-family: 'EB Garamond', Georgia, serif;
         }
@@ -218,8 +235,8 @@ export default function Landing() {
           <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600 dark:text-slate-350">
             <a href="#features" className="hover:text-[#00685f] dark:hover:text-teal-450 transition">Features</a>
             <a href="#how-it-works" className="hover:text-[#00685f] dark:hover:text-teal-450 transition">How it Works</a>
+            <a href="#ats-check" className="hover:text-[#00685f] dark:hover:text-teal-450 transition">ATS Checker</a>
             <a href="#faq-section" className="hover:text-[#00685f] dark:hover:text-teal-450 transition">FAQs</a>
-            <a href="#pricing" className="hover:text-[#00685f] dark:hover:text-teal-450 transition">Pricing</a>
           </nav>
 
           <div className="flex items-center gap-3">
@@ -248,8 +265,8 @@ export default function Landing() {
             </Link>
 
             {/* Get Started Button */}
-            <Link 
-              to="/login" 
+            <Link
+              to="/register"
               className="text-xs font-semibold px-5 py-2.5 rounded-full bg-[#00685f] text-white hover:bg-[#008378] transition shadow-md shadow-[#00685f]/15 hover:scale-[1.02] active:scale-[0.98] duration-200"
             >
               Get Started
@@ -325,7 +342,7 @@ export default function Landing() {
             </nav>
 
             <Link 
-              to="/login" 
+              to="/register" 
               className="mt-auto w-full py-3 bg-[#00685f] hover:bg-[#008378] text-white rounded-xl text-center font-bold text-sm"
             >
               Create My Resume
@@ -357,7 +374,7 @@ export default function Landing() {
             
             <div className="flex flex-wrap items-center gap-4 mt-2">
               <Link 
-                to="/login" 
+                to="/register" 
                 className="bg-[#00685f] hover:bg-[#008378] text-white text-sm font-semibold px-8 py-4 rounded-full transition shadow-lg shadow-[#00685f]/15 hover:-translate-y-0.5"
               >
                 Create My Resume
@@ -621,13 +638,16 @@ export default function Landing() {
                   key={index} 
                   className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden transition-all duration-300"
                 >
-                  <button
-                    onClick={() => toggleFaq(index)}
-                    className="w-full px-6 py-4 flex items-center justify-between text-left font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-55 dark:hover:bg-slate-850 transition-colors"
-                  >
-                    <span>{faq.q}</span>
-                    {isOpen ? <ChevronUp className="w-4 h-4 text-[#00685f] dark:text-teal-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
-                  </button>
+                  <h3 className="m-0">
+                    <button
+                      onClick={() => toggleFaq(index)}
+                      aria-expanded={isOpen}
+                      className="w-full px-6 py-4 flex items-center justify-between text-left font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-55 dark:hover:bg-slate-850 transition-colors"
+                    >
+                      <span>{faq.q}</span>
+                      {isOpen ? <ChevronUp className="w-4 h-4 text-[#00685f] dark:text-teal-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
+                    </button>
+                  </h3>
                   {isOpen && (
                     <div className="px-6 pb-5 pt-1 text-sm text-slate-500 dark:text-slate-450 leading-relaxed border-t border-slate-100 dark:border-slate-800/50 animate-slide-down">
                       {faq.a}
@@ -642,7 +662,7 @@ export default function Landing() {
       </main>
 
       {/* Footer */}
-      <footer id="pricing" className="w-full py-12 px-6 flex flex-col md:flex-row justify-between items-center max-w-[1200px] mx-auto border-t border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-950/60 relative z-10">
+      <footer className="w-full py-12 px-6 flex flex-col md:flex-row justify-between items-center max-w-[1200px] mx-auto border-t border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-950/60 relative z-10">
         <div className="font-sans text-lg font-bold text-[#00685f] dark:text-teal-400 mb-4 md:mb-0">
           ResumeCraft
         </div>
@@ -652,11 +672,9 @@ export default function Landing() {
         </div>
         
         <nav className="flex flex-wrap justify-center gap-6 text-xs font-semibold text-slate-500 dark:text-slate-450">
-          <a href="#" className="hover:text-[#00685f] transition">Privacy Policy</a>
-          <a href="#" className="hover:text-[#00685f] transition">Terms of Service</a>
-          <a href="#" className="hover:text-[#00685f] transition">Contact Us</a>
-          <a href="#" className="hover:text-[#00685f] transition">Twitter</a>
-          <a href="#" className="hover:text-[#00685f] transition">LinkedIn</a>
+          <Link to="/privacy" className="hover:text-[#00685f] transition">Privacy Policy</Link>
+          <Link to="/terms" className="hover:text-[#00685f] transition">Terms of Service</Link>
+          <Link to="/register" className="hover:text-[#00685f] transition">Create My Resume</Link>
         </nav>
       </footer>
 
@@ -676,9 +694,9 @@ export default function Landing() {
         <div className="fixed bottom-0 left-0 w-full z-50 p-4 animate-slide-up">
           <div className="max-w-xl mx-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex-1 text-center sm:text-left">
-              <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-1 flex items-center gap-2 justify-center sm:justify-start">
+              <p className="text-sm font-bold text-slate-900 dark:text-white mb-1 flex items-center gap-2 justify-center sm:justify-start">
                 <span>🍪 Cookie Preferences</span>
-              </h4>
+              </p>
               <p className="text-xs text-slate-500 dark:text-slate-405 leading-relaxed">
                 We use cookies to save your user sessions and resume formatting settings. By accepting, you consent to our use of local cache files.
               </p>
